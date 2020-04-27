@@ -39,8 +39,14 @@ router.post(
     // console.log(errors.array());
     // console.log(errors.mapped());
     // console.log(errors.isEmpty());
-    console.log(req.body.username, req.body.email)
-    res.render("playground/signup", { title: "Validator playground" });
+    // console.log(req.body.username, req.body.email)
+    // res.render("playground/signup", { title: "Validator playground" });
+    if(!errors.isEmpty){
+      req.flash('fail', 'There is some error')
+    } else{
+      req.flash('success', 'There is no error')
+    }
+    res.redirect('/playground/signup')
   }
 );
 module.exports = router;
