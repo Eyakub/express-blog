@@ -23,9 +23,9 @@ const middleware = [
     secret: process.env.SECRET_KEY || 'SECRET_KEY',
     resave: false,
     saveUninitialized: false,
-    cookie: {
-      maxAge: 60* 60 * 2
-    }
+    // cookie: {
+    //   maxAge: 60* 60 * 2 
+    // }
   })
 ];
 app.use(middleware);
