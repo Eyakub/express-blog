@@ -1,14 +1,40 @@
-const express = require('express')
+const express = require("express");
+const morgan = require("morgan");
+const mongoose = require("mongoose");
 
-const app = express()
+// Import Routes
+const authRoutes = require("./routes/authRoute");
+const app = express();
 
-app.get('/', (req, res) => {
-  res.json({
-    message: 'Hello from Project structure'
+// Setup View Engine
+app.set("view engine", "ejs");
+app.set("views", "views");
+
+// Middleware Array
+const middleware = [
+  morgan("dev"),
+  express.static("public"),
+  express.urlencoded({ extended: true }),
+  express.json(),
+];
+app.use(middleware);
+
+app.use("/auth", authRoutes);
+
+// Router
+app.get("/", (req, res) => {
+  // res.render('pages/auth/signup', { title: 'Create a new Account'})
+  res.send("Hi");
+});
+
+const PORT = process.env.PORT || 7777;
+mongoose
+  .connect("mongodb://localhost:27017/blog", { useNewUrlParser: true })
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server is running on PORT ${PORT}`);
+    });
   })
-})
-
-const PORT = process.env.PORT || 7777
-app.listen(PORT, () => {
-  console.log(`Server is running on PORT ${PORT}`)
-})
+  .catch((e) => {
+    console.log('DB connection failed', e);
+  });
