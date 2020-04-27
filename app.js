@@ -30,9 +30,6 @@ app.get("/", (req, res) => {
   res.send("Hi");
 });
 
-
-
-
 const PORT = process.env.PORT || 7777;
 mongoose
   .connect("mongodb://localhost:27017/blog", { useNewUrlParser: true })
@@ -42,5 +39,5 @@ mongoose
     });
   })
   .catch((e) => {
-    console.log('DB connection failed', e);
+    console.log("DB connection failed", e);
   });

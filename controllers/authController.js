@@ -4,7 +4,7 @@ const { validationResult } = require("express-validator");
 const errorFormatter = require("../utils/validationErrorFormatter");
 
 exports.signupGetController = (req, res, next) => {
-  res.render("pages/auth/signup", { title: "Create a new Account", error: {} });
+  res.render("pages/auth/signup", { title: "Create a new Account", error: {}, value: {} });
 };
 
 exports.signupPostController = async (req, res, next) => {
@@ -36,7 +36,6 @@ exports.signupPostController = async (req, res, next) => {
     console.log("User created successfully", createdUser);
     res.render("pages/auth/signup", {
       title: "Create a new Account",
-      error: {},
     });
   } catch (e) {
     console.log(e);
@@ -45,11 +44,22 @@ exports.signupPostController = async (req, res, next) => {
 };
 
 exports.loginGetController = (req, res, next) => {
-  res.render("pages/auth/login", { title: "Login" });
+  res.render("pages/auth/login", { title: "Login", error: {} });
 };
 exports.loginPostController = async (req, res, next) => {
   let { email, password } = req.body;
-
+  let errors = validationResult(req).formatWith(errorFormatter);
+  console.log(errors)
+  if (!errors.isEmpty()) {
+    return res.render("pages/auth/login", {
+      title: "Login",
+      error: errors.mapped(),
+      value: {
+        email,
+        password,
+      },
+    });
+  }
   try {
     let user = await User.findOne({ email });
     if (!user) {
@@ -65,7 +75,7 @@ exports.loginPostController = async (req, res, next) => {
       });
     }
     console.log("Successfully logged in", user);
-    res.render("pages/auth/login", { title: "Login" });
+    res.render("pages/auth/login", { title: "Login", error: {} });
   } catch (e) {
     console.log(e);
     next(e);
