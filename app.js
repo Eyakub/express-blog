@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 
 // Import Routes
 const authRoutes = require("./routes/authRoute");
+//Play ground routes
+// const validatorRoutes = require('./playground/validator')
 const app = express();
 
 // Setup View Engine
@@ -20,12 +22,16 @@ const middleware = [
 app.use(middleware);
 
 app.use("/auth", authRoutes);
+// app.use('/playground', validatorRoutes)
 
 // Router
 app.get("/", (req, res) => {
   // res.render('pages/auth/signup', { title: 'Create a new Account'})
   res.send("Hi");
 });
+
+
+
 
 const PORT = process.env.PORT || 7777;
 mongoose

@@ -1,11 +1,17 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
+const { validationResult } = require('express-validator')
+const errorFormatter = require('../utils/validationErrorFormatter')
 
 exports.signupGetController = (req, res, next) => {
-  res.render("pages/auth/signup", { title: "Create a new Account" });
+  res.render("pages/auth/signup", { title: "Create a new Account", error: {}});
 };
 
 exports.signupPostController = async (req, res, next) => {
+  let errors = validationResult(req).formatWith(errorFormatter)
+  if(!errors.isEmpty()){
+    return res.render('pages/auth/signup', {title: 'Create a new account', error:errors.mapped()})
+  }
   let { username, email, password } = req.body;
 
   try {
@@ -20,7 +26,7 @@ exports.signupPostController = async (req, res, next) => {
 
     let createdUser = await user.save(); // return promise and store it to createdUser
     console.log("User created successfully", createdUser);
-    res.render("pages/auth/signup", { title: "Create a new Account" });
+    res.render("pages/auth/signup", { title: "Create a new Account", error: {} });
   } catch (e) {
     console.log(e);
     next(e);
@@ -41,7 +47,7 @@ exports.loginPostController = async (req, res, next) => {
       })
     }
 
-    let match = bcrypt.compare(password, user.password)
+    let match = await bcrypt.compare(password, user.password)
     if(!match){
       return res.json({
         message: 'Invalid credential',
