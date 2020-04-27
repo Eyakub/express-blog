@@ -5,11 +5,6 @@ const errorFormatter = require("../utils/validationErrorFormatter");
 const Flash = require("../utils/Flash");
 
 exports.signupGetController = (req, res, next) => {
-  try{
-    throw new Error('Server crash')
-  } catch(e){
-    next(e)
-  }
   res.render("pages/auth/signup", {
     title: "Create a new Account",
     error: {},

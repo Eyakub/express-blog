@@ -1,5 +1,30 @@
-const Flash = require('../utils/Flash')
+const Flash = require("../utils/Flash");
+const Profile = require("../models/Profile");
 
-exports.dashboardGetController = (req, res, next) => {
-  res.render('pages/dashboard/dashboard', {title: 'Dashboard', flashMessage: Flash.getMessage(req)})
+exports.dashboardGetController = async (req, res, next) => {
+  try {
+    let profile = await Profile.findOne({ user: req.user._id });
+
+    if (profile) {
+      return res.render("pages/dashboard/dashboard", {
+        title: "Dashboard",
+        flashMessage: Flash.getMessage(req),
+      });
+    }
+
+    res.redirect('/dashboard/create-profile')
+  } catch (e) {
+    next(e);
+  }
+};
+
+exports.createProfileGetController = async (req, res, next) => {
+  try{
+    let profile = await Profile.findOne({user: req.user._id})
+    if(profile){
+      res.redirect('/dashboard/edit-profile')
+    }
+  } catch(e){
+    next(e)
+  }
 }
