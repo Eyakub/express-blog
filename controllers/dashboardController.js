@@ -24,7 +24,20 @@ exports.createProfileGetController = async (req, res, next) => {
     if(profile){
       res.redirect('/dashboard/edit-profile')
     }
+    res.render('pages/dashboard/create-profile', {title: 'Create Profile', flashMessage: {}})
   } catch(e){
     next(e)
   }
+}
+
+exports.createProfilePostController = (req, res, next) => {
+  next()
+}
+
+exports.editProfileGetController = (req, res, next) => {
+  next()
+}
+
+exports.editProfilePostController = (req, res, next) => {
+  next()
 }
