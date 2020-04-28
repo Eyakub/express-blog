@@ -1,14 +1,13 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const config = require("config");
-// const testConsole = require('debug')('app:test')
-// const dbconsole = require('debug')('app:db')
-
-// testConsole('this is a test  console')
+const dotenv = require('dotenv')
 
 const setMiddleware = require("./middleware/middleware");
 const setRoutes = require("./routes/routes");
 
+dotenv.config();
+console.log(`port is: ${process.env.PORT}`)
 const DB_ADMIN = process.env.DB_ADMIN;
 const DB_PASSWORD = process.env.DB_PASSWORD;
 const MONGODB_URI = `mongodb+srv://${DB_ADMIN}:${DB_PASSWORD}@eyakub-mzmnx.mongodb.net/blog`;
@@ -38,12 +37,11 @@ app.use((error, req, res, next) => {
   res.render('pages/error/500', {flashMessage: {}})
 });
 
-const PORT = process.env.PORT || 7777;
 mongoose
   .connect(MONGODB_URI, { useNewUrlParser: true })
   .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Server is running on PORT ${PORT}`);
+    app.listen(process.env.PORT, () => {
+      console.log(`Server is running on PORT ${process.env.PORT}`);
     });
   })
   .catch((e) => {
