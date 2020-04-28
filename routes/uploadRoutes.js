@@ -12,3 +12,5 @@ router.post(
   upload.single("profilePics"),
   uploadProfilePicsController
 );
+
+module.exports = router

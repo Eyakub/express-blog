@@ -21,7 +21,7 @@ const upload = multer({
     const extName = types.test(path.extname(file.originalname).toLowerCase())
     const mimeType = types.test(file.mimetype)
 
-    if(extName && mimetype){
+    if(extName && mimeType){
       cb(null, true)
     } else {
       new Error('Only support JPG || JPEG || PNG || GIF file')

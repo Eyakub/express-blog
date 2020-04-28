@@ -2,10 +2,12 @@ const User = require("../models/User");
 const Profile = require("../models/Profile");
 
 exports.uploadProfilePicsController = async (req, res, next) => {
+  console.log(req.file)
   if (req.file) {
     try {
       let profile = await Profile.findOne({ user: req.user._id });
       let profilePics = `/uploads/${req.file.filenme}`;
+      console.log('prfile pic ', profilePics)
       if (profile) {
         await Profile.findOneAndUpdate(
           { user: req.user._id },

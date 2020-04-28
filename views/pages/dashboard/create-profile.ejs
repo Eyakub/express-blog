@@ -14,7 +14,7 @@
             <img src="<%= user.profilePics %>" alt="Profile Pics" class="img-thumbnail img-fluid" id="profilePics">
             <form action="/uploads/profilePics" class="my-2" id='profilePicsForm'>
               <input type="file" name="profilePics" id="profilePicsFile" accept="image/*">
-              <input type="button" value="Remove Pics" class="btn btn-danger btn-sm my-2"
+              <input type="button" value="Remove Pics" id="removeProfilePics" class="btn btn-danger btn-sm my-2"
                 style="display: <%= user.profilePics.includes('default.png') ? 'none': 'block' %>">
             </form>
           </div>
